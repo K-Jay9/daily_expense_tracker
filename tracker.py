@@ -19,14 +19,15 @@ def initUI(root):
     # Initilise the Geometry
     root.geometry(GEO)
 
-    daily = Button(root, text=DAILY)
-    daily.grid(row=0, column=1)
+    daily = Button(root, text=DAILY, style="C.TButton")
+    daily.grid(row=0, column=1, sticky='nesw')
 
-    weekly = Button(root, text=WEEKLY)
-    weekly.grid(row=0, column=2)
+    weekly = Button(root, text=WEEKLY, style="C.TButton")
+    weekly.grid(row=0, column=2, sticky='nesw')
 
-    monthly = Button(root, text=MONTHLY)
-    monthly.grid(row=0, column=3)
+    monthly = Button(root, text=MONTHLY, style="C.TButton")
+    monthly.grid(row=0, column=3, sticky='nesw')
+
     
 
 def styling(root):
@@ -49,8 +50,16 @@ def styling(root):
 
     # Initialising Style and loading in a dark thene
     style = Style()
-
     style.theme_use('awdark')
+
+    #configure buttons
+    style.configure("TButton", padding=6, relief="flat")
+
+    # button active tweaks
+    style.map("C.TButton",
+    foreground=[('pressed', 'black'), ('active', 'black')],
+    background=[('pressed', '!disabled', 'white'), ('active', 'white')]
+    )
 
 def main(root):
     # Add the Theme initilise the UI
