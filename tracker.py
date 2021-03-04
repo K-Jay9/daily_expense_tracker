@@ -1,4 +1,4 @@
-from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP
+from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH
 from tkinter.ttk import Frame, Button, Style
 
 
@@ -21,14 +21,19 @@ def initUI(root):
 
 
     # 3 different frames for the menu bar
-    frame = Frame(root)
-    frame.pack(fill="x")
 
-    daily = Button(frame, text=DAILY, style="C.TButton").pack(side=LEFT,anchor='w',fill="x")
+    top_frame = Frame(root)
+    top_frame.pack(fill=BOTH)
 
-    weekly = Button(frame, text=WEEKLY, style="C.TButton").pack(anchor='c')
+    bottom_frame = Frame(root)
+    bottom_frame.pack(side=BOTTOM)
 
-    monthly = Button(frame, text=MONTHLY, style="C.TButton").pack(side=RIGHT, anchor='w',fill="x")
+
+    daily = Button(top_frame, text=DAILY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
+
+    weekly = Button(top_frame, text=WEEKLY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
+
+    monthly = Button(top_frame, text=MONTHLY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
 
     
 
@@ -49,7 +54,7 @@ def styling(root):
 
     # remove maximize/mininize button
     root.resizable(0,0)
-    
+
     # load the awdark and awlight themes
     root.tk.call("package", "require", 'awdark')
     root.tk.call("package", "require", 'awlight')
