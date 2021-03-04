@@ -1,4 +1,4 @@
-from tkinter import Tk
+from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP
 from tkinter.ttk import Frame, Button, Style
 
 
@@ -8,7 +8,7 @@ NAME = 'Daily Expense Tracker'
 DAILY = 'Daily'
 WEEKLY = 'Weekly'
 MONTHLY = 'Monthly'
-GEO = '720x640'
+GEO = '720x640+250+150'
 
 
 def initUI(root):
@@ -19,14 +19,16 @@ def initUI(root):
     # Initilise the Geometry
     root.geometry(GEO)
 
-    daily = Button(root, text=DAILY, style="C.TButton")
-    daily.grid(row=0, column=1, sticky='nesw')
 
-    weekly = Button(root, text=WEEKLY, style="C.TButton")
-    weekly.grid(row=0, column=2, sticky='nesw')
+    # 3 different frames for the menu bar
+    frame = Frame(root)
+    frame.pack(fill="x")
 
-    monthly = Button(root, text=MONTHLY, style="C.TButton")
-    monthly.grid(row=0, column=3, sticky='nesw')
+    daily = Button(frame, text=DAILY, style="C.TButton").pack(side=LEFT,anchor='w',fill="x")
+
+    weekly = Button(frame, text=WEEKLY, style="C.TButton").pack(anchor='c')
+
+    monthly = Button(frame, text=MONTHLY, style="C.TButton").pack(side=RIGHT, anchor='w',fill="x")
 
     
 
@@ -44,6 +46,10 @@ def styling(root):
     package ifneeded awlight 7.9 \
         [list source [file join $base_theme_dir awlight.tcl]]
     """)
+
+    # remove maximize/mininize button
+    root.resizable(0,0)
+    
     # load the awdark and awlight themes
     root.tk.call("package", "require", 'awdark')
     root.tk.call("package", "require", 'awlight')
@@ -55,7 +61,7 @@ def styling(root):
     #configure buttons
     style.configure("TButton", padding=6, relief="flat")
 
-    # button active tweaks
+    # button active/hover tweaks
     style.map("C.TButton",
     foreground=[('pressed', 'black'), ('active', 'black')],
     background=[('pressed', '!disabled', 'white'), ('active', 'white')]
