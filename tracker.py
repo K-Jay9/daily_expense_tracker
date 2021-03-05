@@ -9,8 +9,13 @@ DAILY = 'Daily'
 WEEKLY = 'Weekly'
 MONTHLY = 'Monthly'
 GEO = '720x640+250+150'
-myfont = 'Helvetica 16 bold'
+myfont = 'Vollkorn 16 bold'
+menu_font = 'Vollkorn 12 bold'
 total = '1,053'
+theme = '#383c3c'
+blue = '#769ddb'
+green = '#2ee827'
+number_font = "FontAwesome 16 bold"
 
 def initUI(root):
 
@@ -44,9 +49,13 @@ def body(root):
     top_frame.pack(fill=BOTH)
 
     # The Balance section
-    amount = Label(top_frame, text=total,padx=20,pady=20, fg='Green', bg='dark gray', font =myfont).pack(side=RIGHT)
+    amount = Label(top_frame, text=total,padx=20,pady=20, fg=green, bg='white', font =number_font).pack(side=RIGHT)
 
-    ksh = Label(top_frame, text='Ksh :',padx=20,pady=20, fg='white', bg='#2d3030', font =myfont).pack(side=RIGHT)
+    ksh = Label(top_frame, text='Ksh',padx=20,pady=20, fg='white', bg=theme, font=myfont).pack(side=RIGHT)
+
+    # The transactions section
+    trans = Label(top_frame, text='Transactions', bg=theme, fg=blue, font=myfont, pady=10).pack(side=BOTTOM)
+
 
 
 def styling(root):
@@ -76,7 +85,7 @@ def styling(root):
     style.theme_use('awdark')
 
     #configure buttons
-    style.configure("TButton", padding=6, relief="flat")
+    style.configure("TButton", padding=6, relief="flat", font=menu_font)
 
     # button active/hover tweaks
     style.map("C.TButton",
@@ -94,6 +103,10 @@ def main(root):
 
 # Initialising the window
 window = Tk()
+
+
+#print(font.families())
+
 main(window)
 # Starting the mainloop
 window.mainloop()
