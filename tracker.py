@@ -1,4 +1,4 @@
-from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH, font, Label, Entry
+from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH, font, Label, Entry, Listbox, END
 from tkinter.ttk import Frame, Style, Button
 
 
@@ -11,11 +11,14 @@ MONTHLY = 'Monthly'
 GEO = '720x640+250+150'
 myfont = 'Vollkorn 16 bold'
 menu_font = 'Vollkorn 12 bold'
-total = '1,053'
+total = '1,053.00'
 theme = '#383c3c'
 blue = '#769ddb'
 green = '#2ee827'
+red = 'red'
 number_font = "FontAwesome 16 bold"
+tran = 'Vollkorn 14'
+stat_font = 'FontAwesome 12 '
 
 
 def initUI(root):
@@ -60,16 +63,75 @@ def body(root):
     Label(top_frame, text='Ksh',padx=20,pady=20, fg='white', bg=theme, font=myfont).pack(side=RIGHT)
 
     # The transactions label
-    Label(top_frame, text='Transactions', bg=theme, fg=blue, font=myfont, pady=10).pack()
+    Label(top_frame, text='Transactions', bg=theme, fg=blue, font=myfont, pady=10).pack(side=LEFT, padx=10)
+
+    scroll(root)
+
+
+def scroll(root):
+    # The middle section full of transactions
+    bod = Frame(root)
+    bod.pack(side=LEFT, fill=BOTH)
+
+    # The listbox for the transactions
+    mylist = Listbox(bod, font=tran, fg=red)
+
+    # filling the listbox with dummy data
+
+    for i in range(1,26):
+        mylist.insert(END, 'Geeks ' + str(i))
+
+    mylist.pack(fill=BOTH,padx=20,pady=10, expand=True)
+
+    # the configuration
 
     bt_frame(root)
+    statistics(root)
 
+def statistics(root):
+    n = Frame(root)
+    n.pack(side=LEFT, fill=BOTH)
 
+    # The currency label
+    Label(n,anchor='w', text='Mean :',padx=5,pady=20, fg='white', bg=theme, font=tran).pack(fill=BOTH, expand=True)    # The currency label
+    
+    Label(n,anchor='w', text='Maximum :',padx=5,pady=20, fg='white', bg=theme, font=tran).pack(fill=BOTH, expand=True)    # The currency label
+    
+    Label(n,anchor='w', text='Minimum :',padx=5,pady=20, fg='white', bg=theme, font=tran).pack(fill=BOTH, expand=True)    # The currency label
+    
+    Label(n,anchor='w', text='Median :',padx=5,pady=20, fg='white', bg=theme, font=tran).pack(fill=BOTH, expand=True)    # The currency label
+    
+    Label(n,anchor='w', text='Mode :',padx=5,pady=20, fg='white', bg=theme, font=tran).pack(fill=BOTH, expand=True)
+
+    Label(n,anchor='w', text='Spending : ',padx=5,pady=20, fg='white', bg=theme, font=tran).pack(fill=BOTH, expand=True)
+
+    data(root)
+
+def data(root):
+    n = Frame(root)
+    n.pack(fill=BOTH)
+
+    # The currency label
+    Label(n,justify=CENTER, text='Ksh 75.00',padx=20,pady=25, fg=green, bg=theme, font=stat_font).pack(fill=BOTH, expand=True)    # The currency label
+    
+    Label(n,justify=CENTER, text='Ksh 330.00',padx=20,pady=25, fg=green, bg=theme, font=stat_font).pack(fill=BOTH, expand=True)    # The currency label
+    
+    Label(n,justify=CENTER, text='Ksh 40.00',padx=20,pady=25, fg=green, bg=theme, font=stat_font).pack(fill=BOTH, expand=True)    # The currency label
+    
+    Label(n,justify=CENTER, text='Ksh 70.00',padx=20,pady=25, fg=green, bg=theme, font=stat_font).pack(fill=BOTH, expand=True)    # The currency label
+    
+    Label(n,justify=CENTER, text='Ksh 70.00',padx=20,pady=25, fg=green, bg=theme, font=stat_font).pack(fill=BOTH, expand=True)
+
+    Label(n,justify=CENTER, text='25%',padx=20,pady=25, fg=green, bg=theme, font=stat_font).pack(fill=BOTH, expand=True)
+
+# The Entry frame at the bottom
 def bt_frame(root):
     f = Frame(root, padding='0.3i')
     f.pack(side=BOTTOM, fill=BOTH)
 
     # The input field
+    Label(f, text='Enter Amount',padx=10,pady=10, fg='white', bg=theme, font=myfont).pack(side=LEFT)
+
     Entry(f, font=number_font, justify=CENTER).pack(ipadx = 3, ipady = 8)
      
 
