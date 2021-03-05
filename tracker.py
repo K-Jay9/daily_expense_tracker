@@ -1,5 +1,5 @@
-from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH
-from tkinter.ttk import Frame, Button, Style
+from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH, font, Label
+from tkinter.ttk import Frame, Style, Button
 
 
 # Code Constants and variables
@@ -9,7 +9,8 @@ DAILY = 'Daily'
 WEEKLY = 'Weekly'
 MONTHLY = 'Monthly'
 GEO = '720x640+250+150'
-
+myfont = 'Helvetica 16 bold'
+total = '1,053'
 
 def initUI(root):
 
@@ -19,23 +20,34 @@ def initUI(root):
     # Initilise the Geometry
     root.geometry(GEO)
 
+    # The menu bar frame
+    menu_bar(root)
+    body(root)
 
-    # 3 different frames for the menu bar
+
+def menu_bar(root):
+    # The menu bar frame
 
     top_frame = Frame(root)
     top_frame.pack(fill=BOTH)
 
-    bottom_frame = Frame(root)
-    bottom_frame.pack(side=BOTTOM)
-
-
+    # The 3 tabs for the first frame
     daily = Button(top_frame, text=DAILY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
 
     weekly = Button(top_frame, text=WEEKLY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
 
     monthly = Button(top_frame, text=MONTHLY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
 
-    
+def body(root):
+
+    top_frame = Frame(root)
+    top_frame.pack(fill=BOTH)
+
+    # The Balance section
+    amount = Label(top_frame, text=total,padx=20,pady=20, fg='Green', bg='dark gray', font =myfont).pack(side=RIGHT)
+
+    ksh = Label(top_frame, text='Ksh :',padx=20,pady=20, fg='white', bg='#2d3030', font =myfont).pack(side=RIGHT)
+
 
 def styling(root):
     # tell tcl where to find the awthemes packages
@@ -69,8 +81,10 @@ def styling(root):
     # button active/hover tweaks
     style.map("C.TButton",
     foreground=[('pressed', 'black'), ('active', 'black')],
-    background=[('pressed', '!disabled', 'white'), ('active', 'white')]
+    background=[('pressed', '!disabled', 'gray'), ('active', 'gray')]
     )
+
+
 
 def main(root):
     # Add the Theme initilise the UI
