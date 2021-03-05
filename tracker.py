@@ -1,4 +1,4 @@
-from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH, font, Label
+from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH, font, Label, Entry
 from tkinter.ttk import Frame, Style, Button
 
 
@@ -16,6 +16,7 @@ theme = '#383c3c'
 blue = '#769ddb'
 green = '#2ee827'
 number_font = "FontAwesome 16 bold"
+
 
 def initUI(root):
 
@@ -36,12 +37,14 @@ def menu_bar(root):
     top_frame = Frame(root)
     top_frame.pack(fill=BOTH)
 
-    # The 3 tabs for the first frame
-    daily = Button(top_frame, text=DAILY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
+    # The Daily menu button
+    Button(top_frame, text=DAILY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
 
-    weekly = Button(top_frame, text=WEEKLY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
+    # The Weekly menu button
+    Button(top_frame, text=WEEKLY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
 
-    monthly = Button(top_frame, text=MONTHLY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
+    # The Mothly menu button
+    Button(top_frame, text=MONTHLY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
 
 def body(root):
 
@@ -49,12 +52,26 @@ def body(root):
     top_frame.pack(fill=BOTH)
 
     # The Balance section
-    amount = Label(top_frame, text=total,padx=20,pady=20, fg=green, bg='white', font =number_font).pack(side=RIGHT)
 
-    ksh = Label(top_frame, text='Ksh',padx=20,pady=20, fg='white', bg=theme, font=myfont).pack(side=RIGHT)
+    # The amount number label
+    Label(top_frame, text=total,padx=20,pady=20, fg=green, bg='white', font =number_font).pack(side=RIGHT)
 
-    # The transactions section
-    trans = Label(top_frame, text='Transactions', bg=theme, fg=blue, font=myfont, pady=10).pack(side=BOTTOM)
+    # The currency label
+    Label(top_frame, text='Ksh',padx=20,pady=20, fg='white', bg=theme, font=myfont).pack(side=RIGHT)
+
+    # The transactions label
+    Label(top_frame, text='Transactions', bg=theme, fg=blue, font=myfont, pady=10).pack()
+
+    bt_frame(root)
+
+
+def bt_frame(root):
+    f = Frame(root, padding='0.3i')
+    f.pack(side=BOTTOM, fill=BOTH)
+
+    # The input field
+    Entry(f, font=number_font, justify=CENTER).pack(ipadx = 3, ipady = 8)
+     
 
 
 
