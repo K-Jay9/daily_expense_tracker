@@ -24,6 +24,10 @@ red = 'red'
 number_font = "FontAwesome 16 bold"
 tran = 'Vollkorn 14'
 stat_font = 'FontAwesome 12 '
+money = 0
+
+mylist = None
+tot = None
 
 
 '''
@@ -36,8 +40,8 @@ def get_data():
     with open('./transactions.json') as f:
         data = load(f)
         dic = data['Records']
-        global total 
-        total = data['Cash']
+        global money 
+        money = data['Cash']
     return dic
 
 # Getting the input data
@@ -53,8 +57,13 @@ def get():
         data = load(f)
         data['Records'].append(record)
         data['Cash'] = str(int(data['Cash']) + int(n))
+        global money
+        money = data['Cash']
         f.seek(0)
         dump(data,f)
+    string = f"{t} => {n}"
+    mylist.insert(END,string)
+    tot.config(text=str(money))
 
 
 # getting the time of the transaction
@@ -85,8 +94,6 @@ def initUI(root):
     menu_bar(root)
     body(root)
     scroll(root, d)
-    
-
 
     # The bottom frame where transaction is added
     bt_frame(root)
@@ -119,7 +126,10 @@ def body(root):
     # The Balance section
 
     # The amount number label
-    Label(top_frame, text=total,padx=20,pady=20, fg=green, bg='white', font =number_font).pack(side=RIGHT)
+    global tot 
+    tot = Label(top_frame,text=money, padx=20,pady=20, fg=green, bg='white', font =number_font)
+    print(tot)
+    tot.pack(side=RIGHT)
 
     # The currency label
     Label(top_frame, text='Ksh',padx=20,pady=20, fg='white', bg=theme, font=myfont).pack(side=RIGHT)
@@ -135,6 +145,9 @@ def scroll(root, data):
     bod.pack(fill=BOTH, expand=True)
 
     # The listbox for the transactions
+
+    global mylist 
+
     mylist = Listbox(bod, font=tran, fg='blue')
 
     for i in data:
