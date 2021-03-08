@@ -1,4 +1,4 @@
-from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH, font, Label, Entry, Listbox, END, StringVar
+from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH, font, Label, Entry, Listbox, END, StringVar, PhotoImage
 from tkinter.ttk import Frame, Style, Button
 
 
@@ -104,6 +104,8 @@ def initUI(root):
     # Adding the title to the window
     root.title(NAME)
 
+
+
     # Initilise the Geometry
     root.geometry(GEO)
 
@@ -167,7 +169,7 @@ def scroll(root, data):
     # set the global variable to be equal to the Listbox for global manipulation
     global mylist 
 
-    mylist = Listbox(bod, font=tran, fg='blue')
+    mylist = Listbox(bod, font=tran, fg='blue',bg='white')
 
     # Add the transactions from the json to the listbox
     for i in data:
@@ -203,9 +205,8 @@ def styling(root):
     package ifneeded colorutils 4.8 \
         [list source [file join $base_theme_dir colorutils.tcl]]
     package ifneeded awdark 7.11 \
-        [list source [file join $base_theme_dir awdark.tcl]]
-    package ifneeded awlight 7.9 \
-        [list source [file join $base_theme_dir awlight.tcl]]
+        [list source [file join $base_theme_dir awdark.tcl]]   
+    
     """)
 
     # remove maximize/mininize button
@@ -213,8 +214,6 @@ def styling(root):
 
     # load the awdark and awlight themes
     root.tk.call("package", "require", 'awdark')
-    root.tk.call("package", "require", 'awlight')
-
     # Initialising Style and loading in a dark thene
     style = Style()
     style.theme_use('awdark')
@@ -234,6 +233,7 @@ def styling(root):
 window = Tk()
 
 amnt = StringVar()
+
 
 
 # Add the Theme initilise the UI
