@@ -22,7 +22,7 @@ blue = '#769ddb'
 green = '#2ee827'
 red = 'red'
 number_font = "FontAwesome 16 bold"
-tran = 'Vollkorn 14'
+tran = 'Gayathri 14'
 stat_font = 'FontAwesome 12 '
 money = 0
 
@@ -78,7 +78,7 @@ def get():
         dump(data,f)
 
     #The decorated string
-    string = f"{t} => {n}"
+    string = f"{t}                              {n}"
 
     # insert the transaction to the UI and the new cash 
     mylist.insert(END,string)
@@ -169,12 +169,12 @@ def scroll(root, data):
     # set the global variable to be equal to the Listbox for global manipulation
     global mylist 
 
-    mylist = Listbox(bod, font=tran, fg='blue',bg='white')
+    mylist = Listbox(bod, font=tran, fg='maroon',bg='white')
 
     # Add the transactions from the json to the listbox
     for i in data:
         for a,b in i.items():
-            string = f"{str(a)} => {str(int(b))}"
+            string = f"{str(a)}                             {b}"
             mylist.insert(END, string)
             
     mylist.pack(fill=BOTH,padx=20,pady=10, expand=True)
@@ -233,7 +233,6 @@ def styling(root):
 window = Tk()
 
 amnt = StringVar()
-
 
 
 # Add the Theme initilise the UI
