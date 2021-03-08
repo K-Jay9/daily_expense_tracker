@@ -4,7 +4,7 @@ from tkinter.ttk import Frame, Style, Button
 
 from time import localtime, asctime
 
-from json import load, dumps
+from json import load, dump
 
 # Code Constants and variables
 
@@ -16,7 +16,7 @@ MONTHLY = 'Monthly'
 GEO = '720x640+250+150'
 myfont = 'Vollkorn 16 bold'
 menu_font = 'Vollkorn 12 bold'
-total = '1,053.00'
+total = '0'
 theme = '#383c3c'
 blue = '#769ddb'
 green = '#2ee827'
@@ -24,21 +24,37 @@ red = 'red'
 number_font = "FontAwesome 16 bold"
 tran = 'Vollkorn 14'
 stat_font = 'FontAwesome 12 '
-money = 0
 
 
 '''
 This is the 'Backend' of the application. 
 '''
 
+
+# Getting the data from the Json file
+def get_data():
+    with open('./transactions.json') as f:
+        data = load(f)
+        dic = data['Records']
+        global total 
+        total = data['Cash']
+    return dic
+
 # Getting the input data
 def get():
     n = amnt.get()
     amnt.set('')
-    money = n
     t = get_time()
     record = { f"{t}" : f"{n}"}
-    return record
+
+    # Append to transactions.json file
+
+    with open('./transactions.json', 'r+') as f:
+        data = load(f)
+        data['Records'].append(record)
+        data['Cash'] = str(int(data['Cash']) + int(n))
+        f.seek(0)
+        dump(data,f)
 
 
 # getting the time of the transaction
@@ -62,9 +78,20 @@ def initUI(root):
     # Initilise the Geometry
     root.geometry(GEO)
 
+    # Get the data from the json file
+    d = get_data()
+    
     # The menu bar frame
     menu_bar(root)
     body(root)
+    scroll(root, d)
+    
+
+
+    # The bottom frame where transaction is added
+    bt_frame(root)
+ 
+
 
 
 # The menu of the app
@@ -100,30 +127,25 @@ def body(root):
     # The transactions label
     Label(top_frame, text='Transactions', bg=theme, fg=blue, font=myfont, pady=10).pack(side=LEFT, padx=10)
 
-    scroll(root)
 
 # The transactions view where  our Json is displayed
-def scroll(root):
+def scroll(root, data):
     # The middle section full of transactions
     bod = Frame(root)
     bod.pack(fill=BOTH, expand=True)
 
     # The listbox for the transactions
-    mylist = Listbox(bod, font=tran, fg=red)
+    mylist = Listbox(bod, font=tran, fg='blue')
 
-    # filling the listbox with dummy data
-    with open('./transactions.json') as f:
-        data = load(f)
-    
     for i in data:
-        mylist.insert(END, f"{str(i)} => {str(data[i])}")
-        
-
+        for a,b in i.items():
+            string = f"{str(a)} => {str(int(b))}"
+            mylist.insert(END, string)
+            
     mylist.pack(fill=BOTH,padx=20,pady=10, expand=True)
 
     # the configuration
 
-    bt_frame(root)
 
 
 
@@ -135,11 +157,10 @@ def bt_frame(root):
     # The input field
     Label(f, text='Enter Amount',padx=10,pady=10, fg='white', bg=theme, font=myfont).pack(side=LEFT)
 
-    entry = Entry(f, font=number_font, textvariable=amnt, justify=CENTER).pack(side=LEFT, ipadx = 3, ipady = 8)
+    Entry(f, font=number_font, textvariable=amnt, justify=CENTER).pack(side=LEFT, ipadx = 3, ipady = 8)
 
 
     Button(f, text='Add', style="C.TButton", command=get).pack(side=LEFT, fill=BOTH, expand=True)
-
 
 # The styling or the buttons and the theme
 def styling(root):
@@ -178,21 +199,15 @@ def styling(root):
     )
 
 
-# calls on the styling and UI functons
-def main(root):
-    # Add the Theme initilise the UI
-    styling(window)
-    initUI(window)
-
-
 
 # Initialising the window
 window = Tk()
 
 amnt = StringVar()
 
-#print(font.families())
 
-main(window)
-# Starting the mainloop
+# Add the Theme initilise the UI
+styling(window)
+initUI(window)
+
 window.mainloop()
