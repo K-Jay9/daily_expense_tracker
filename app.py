@@ -39,16 +39,23 @@ This is the 'Backend' of the application.
 def get_data():
     with open('./transactions.json') as f:
         data = load(f)
+
+        # Place the acquired data into variables
         dic = data['Records']
+        
         global money 
         money = data['Cash']
     return dic
 
-# Getting the input data
+# Getting the input data ie Cash in hand and the transactions
+
 def get():
+    # get the entered amount and set the input field to default
     n = amnt.get()
     amnt.set('')
     t = get_time()
+
+    # create a new dictionary of the entered amount and a timestamp as a key
     record = { f"{t}" : f"{n}"}
 
     # Append to transactions.json file
@@ -56,12 +63,24 @@ def get():
     with open('./transactions.json', 'r+') as f:
         data = load(f)
         data['Records'].append(record)
+
+        # Get the new cash after the transaction
         data['Cash'] = str(int(data['Cash']) + int(n))
+        
+        # set the money variable to the new cash
         global money
         money = data['Cash']
+
+        # move the cursor to the beginning of the file
         f.seek(0)
+
+        # update the data in the file with the new details
         dump(data,f)
+
+    #The decorated string
     string = f"{t} => {n}"
+
+    # insert the transaction to the UI and the new cash 
     mylist.insert(END,string)
     tot.config(text=str(money))
 
@@ -79,6 +98,7 @@ def get_time():
 This is the 'Frontend' / UI  of the application. 
 '''
 
+# Load all the widgets and window features of the app
 def initUI(root):
 
     # Adding the title to the window
@@ -128,7 +148,6 @@ def body(root):
     # The amount number label
     global tot 
     tot = Label(top_frame,text=money, padx=20,pady=20, fg=green, bg='white', font =number_font)
-    print(tot)
     tot.pack(side=RIGHT)
 
     # The currency label
@@ -145,20 +164,18 @@ def scroll(root, data):
     bod.pack(fill=BOTH, expand=True)
 
     # The listbox for the transactions
-
+    # set the global variable to be equal to the Listbox for global manipulation
     global mylist 
 
     mylist = Listbox(bod, font=tran, fg='blue')
 
+    # Add the transactions from the json to the listbox
     for i in data:
         for a,b in i.items():
             string = f"{str(a)} => {str(int(b))}"
             mylist.insert(END, string)
             
     mylist.pack(fill=BOTH,padx=20,pady=10, expand=True)
-
-    # the configuration
-
 
 
 
