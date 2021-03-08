@@ -1,4 +1,5 @@
 from time import localtime, asctime
+from app import money
 
 
 def get_time():
@@ -7,6 +8,7 @@ def get_time():
     print(t)
     return t
 
+print(money)
 
 
 

@@ -1,8 +1,13 @@
-from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH, font, Label, Entry, Listbox, END
+from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH, font, Label, Entry, Listbox, END, StringVar
 from tkinter.ttk import Frame, Style, Button
 
 
+from time import localtime, asctime
+
+from json import load, dumps
+
 # Code Constants and variables
+
 
 NAME = 'Daily Expense Tracker'
 DAILY = 'Daily'
@@ -19,7 +24,35 @@ red = 'red'
 number_font = "FontAwesome 16 bold"
 tran = 'Vollkorn 14'
 stat_font = 'FontAwesome 12 '
+money = 0
 
+
+'''
+This is the 'Backend' of the application. 
+'''
+
+# Getting the input data
+def get():
+    n = amnt.get()
+    amnt.set('')
+    money = n
+    t = get_time()
+    record = { f"{t}" : f"{n}"}
+    return record
+
+
+# getting the time of the transaction
+def get_time():
+    obj = localtime()
+    t = asctime(obj)
+    return t
+
+
+
+
+'''
+This is the 'Frontend' / UI  of the application. 
+'''
 
 def initUI(root):
 
@@ -34,6 +67,7 @@ def initUI(root):
     body(root)
 
 
+# The menu of the app
 def menu_bar(root):
     # The menu bar frame
 
@@ -49,6 +83,7 @@ def menu_bar(root):
     # The Mothly menu button
     Button(top_frame, text=MONTHLY, style="C.TButton").pack(side=LEFT, fill=BOTH, expand=True)
 
+# The layout of the body
 def body(root):
 
     top_frame = Frame(root)
@@ -67,7 +102,7 @@ def body(root):
 
     scroll(root)
 
-
+# The transactions view where  our Json is displayed
 def scroll(root):
     # The middle section full of transactions
     bod = Frame(root)
@@ -77,9 +112,12 @@ def scroll(root):
     mylist = Listbox(bod, font=tran, fg=red)
 
     # filling the listbox with dummy data
-
-    for i in range(1,26):
-        mylist.insert(END, 'Geeks ' + str(i))
+    with open('./transactions.json') as f:
+        data = load(f)
+    
+    for i in data:
+        mylist.insert(END, f"{str(i)} => {str(data[i])}")
+        
 
     mylist.pack(fill=BOTH,padx=20,pady=10, expand=True)
 
@@ -89,7 +127,7 @@ def scroll(root):
 
 
 
-# The Entry frame at the bottom
+# The Entry frame at the bottom that adds to the transactions
 def bt_frame(root):
     f = Frame(root, padding='0.3i')
     f.pack(side=BOTTOM, fill=BOTH)
@@ -97,11 +135,13 @@ def bt_frame(root):
     # The input field
     Label(f, text='Enter Amount',padx=10,pady=10, fg='white', bg=theme, font=myfont).pack(side=LEFT)
 
-    Entry(f, font=number_font, justify=CENTER).pack(ipadx = 3, ipady = 8)
-     
+    entry = Entry(f, font=number_font, textvariable=amnt, justify=CENTER).pack(side=LEFT, ipadx = 3, ipady = 8)
 
 
+    Button(f, text='Add', style="C.TButton", command=get).pack(side=LEFT, fill=BOTH, expand=True)
 
+
+# The styling or the buttons and the theme
 def styling(root):
     # tell tcl where to find the awthemes packages
     root.tk.eval("""
@@ -138,16 +178,18 @@ def styling(root):
     )
 
 
-
+# calls on the styling and UI functons
 def main(root):
     # Add the Theme initilise the UI
     styling(window)
     initUI(window)
 
 
+
 # Initialising the window
 window = Tk()
 
+amnt = StringVar()
 
 #print(font.families())
 
