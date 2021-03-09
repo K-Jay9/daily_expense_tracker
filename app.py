@@ -53,10 +53,13 @@ def get():
     # get the entered amount and set the input field to default
     n = amnt.get()
     amnt.set('')
+
+    nt = note.get()
+    note.set('')
     t = get_time()
 
     # create a new dictionary of the entered amount and a timestamp as a key
-    record = { f"{t}" : f"{n}"}
+    record = { f"{t}" : [f"{n}", f"{nt}"]}
 
     # Append to transactions.json file
 
@@ -78,7 +81,7 @@ def get():
         dump(data,f)
 
     #The decorated string
-    string = f"{t}                              {n}"
+    string = f"{t}                          {n}    {nt}"
 
     # insert the transaction to the UI and the new cash 
     mylist.insert(END,string)
@@ -174,7 +177,7 @@ def scroll(root, data):
     # Add the transactions from the json to the listbox
     for i in data:
         for a,b in i.items():
-            string = f"{str(a)}                             {b}"
+            string = f"{str(a)}                         {b[0]}    {b[1]}"
             mylist.insert(END, string)
             
     mylist.pack(fill=BOTH,padx=20,pady=10, expand=True)
@@ -187,7 +190,7 @@ def bt_frame(root):
     f.pack(side=BOTTOM, fill=BOTH)
 
     # The input field
-    Label(f, text='Enter Amount',padx=10,pady=10, fg='white', bg=theme, font=myfont).pack(side=LEFT)
+    Entry(f, font=number_font, textvariable=note, justify=CENTER).pack(side=LEFT, ipadx = 3, ipady = 8)
 
     Entry(f, font=number_font, textvariable=amnt, justify=CENTER).pack(side=LEFT, ipadx = 3, ipady = 8)
 
@@ -233,6 +236,7 @@ def styling(root):
 window = Tk()
 
 amnt = StringVar()
+note = StringVar()
 
 
 # Add the Theme initilise the UI
