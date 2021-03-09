@@ -52,10 +52,10 @@ def get_data():
 def get():
     # get the entered amount and set the input field to default
     n = amnt.get()
-    amnt.set('')
+    amnt.set('Enter Amount')
 
     nt = note.get()
-    note.set('')
+    note.set('Enter Note')
     t = get_time()
 
     # create a new dictionary of the entered amount and a timestamp as a key
@@ -81,7 +81,7 @@ def get():
         dump(data,f)
 
     #The decorated string
-    string = f"{t}                          {n}    {nt}"
+    string = f"{t}                          {int(n)}            {nt}"
 
     # insert the transaction to the UI and the new cash 
     mylist.insert(END,string)
@@ -177,7 +177,7 @@ def scroll(root, data):
     # Add the transactions from the json to the listbox
     for i in data:
         for a,b in i.items():
-            string = f"{str(a)}                         {b[0]}    {b[1]}"
+            string = f"{str(a)}                         {int(b[0])}         {b[1]}"
             mylist.insert(END, string)
             
     mylist.pack(fill=BOTH,padx=20,pady=10, expand=True)
@@ -190,12 +190,14 @@ def bt_frame(root):
     f.pack(side=BOTTOM, fill=BOTH)
 
     # The input field
-    Entry(f, font=number_font, textvariable=note, justify=CENTER).pack(side=LEFT, ipadx = 3, ipady = 8)
+    g = Entry(f, font=number_font, textvariable=amnt, justify=CENTER)
+    g.pack(side=LEFT, padx = 3, ipady=6)
 
-    Entry(f, font=number_font, textvariable=amnt, justify=CENTER).pack(side=LEFT, ipadx = 3, ipady = 8)
+    e = Entry(f, font=number_font, textvariable=note, justify=CENTER)
+    e.pack(side=LEFT, padx = 3, ipady=6)
 
 
-    Button(f, text='Add', style="C.TButton", command=get).pack(side=LEFT, fill=BOTH, expand=True)
+    Button(f, text='Add', style="C.TButton", command=get).pack(fill=BOTH)
 
 # The styling or the buttons and the theme
 def styling(root):
@@ -235,8 +237,8 @@ def styling(root):
 # Initialising the window
 window = Tk()
 
-amnt = StringVar()
-note = StringVar()
+amnt = StringVar(window, value='Enter Amount')
+note = StringVar(window, value='Enter Note')
 
 
 # Add the Theme initilise the UI
