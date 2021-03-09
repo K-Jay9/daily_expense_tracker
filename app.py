@@ -81,7 +81,7 @@ def get():
         dump(data,f)
 
     #The decorated string
-    string = f"{t}                          {int(n)}            {nt}"
+    string = f"{t}      {int(n)}            {nt}"
 
     # insert the transaction to the UI and the new cash 
     mylist.insert(END,string)
@@ -177,7 +177,7 @@ def scroll(root, data):
     # Add the transactions from the json to the listbox
     for i in data:
         for a,b in i.items():
-            string = f"{str(a)}                         {int(b[0])}         {b[1]}"
+            string = f"{str(a)}     {int(b[0])}         {b[1]}"
             mylist.insert(END, string)
             
     mylist.pack(fill=BOTH,padx=20,pady=10, expand=True)
