@@ -2,33 +2,76 @@ from tkinter import Tk, BOTTOM, LEFT, RIGHT, CENTER, TOP, BOTH, font, Label, Ent
 from tkinter.ttk import Frame, Style, Button
 
 
-from time import localtime, asctime
-
 from json import load, dump
 
-from tracker import get, get_data, get_time
+# Importing the utility functions
+from utility import  get_time
+
+# Importing the constants
+from utility import NAME, DAILY, WEEKLY, MONTHLY, GEO, myfont, menu_font, money, tran, number_font, stat_font, total, theme, blue, green, red
 # Code Constants and variables
 
 
-NAME = 'Daily Expense Tracker'
-DAILY = 'Daily'
-WEEKLY = 'Weekly'
-MONTHLY = 'Monthly'
-GEO = '720x640+250+150'
-myfont = 'Vollkorn 16 bold'
-menu_font = 'Vollkorn 12 bold'
-total = '0'
-theme = '#383c3c'
-blue = '#769ddb'
-green = '#2ee827'
-red = 'red'
-number_font = "FontAwesome 16 bold"
-tran = 'Gayathri 14'
-stat_font = 'FontAwesome 12 '
-money = 0
+
+
 
 mylist = None
 tot = None
+
+'''
+The backend of the application
+'''
+def get():
+    # get the entered amount and set the input field to default
+    
+    n = amnt.get()
+    amnt.set('Enter Amount')
+
+    nt = note.get()
+    note.set('Enter Note')
+    t = get_time()
+
+
+    # create a new dictionary of the entered amount and a timestamp as a key
+    record = { f"{t}" : [f"{n}", f"{nt}"]}
+
+    # Append to transactions.json file
+
+    with open('./transactions.json', 'r+') as f:
+        data = load(f)
+        data['Records'].append(record)
+
+        # Get the new cash after the transaction
+        data['Cash'] = str(int(data['Cash']) + int(n))
+        
+        # set the money variable to the new cash
+        global money
+        money = data['Cash']
+
+        # move the cursor to the beginning of the file
+        f.seek(0)
+
+        # update the data in the file with the new details
+        dump(data,f)
+
+    #The decorated string
+    string = f"{t}      {int(n)}            {nt}"
+
+    # insert the transaction to the UI and the new cash 
+    mylist.insert(END,string)
+    tot.config(text=str(money))
+
+# Getting the data from the Json file
+def get_data():
+    with open('./transactions.json') as f:
+        data = load(f)
+
+        # Place the acquired data into variables
+        dic = data['Records']
+        
+        global money 
+        money = data['Cash']
+    return dic
 
 
 
